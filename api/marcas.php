@@ -1,22 +1,21 @@
 <?php
-if(!isset($_GET['cod']))
-{
-  echo json_encode([
-    'error'=>'Nenhuma fipe'
-  ]);
-}
-$fipe=$_GET['cod'];
 
 require_once('../fipe_con.php');
 $conn=conectar();
 try
 {
   $stt=$conn->prepare('
-    SELECT modelo FROM fp_modelo WHERE codigo_fipe=:fipe limit 1
+  SELECT
+    UPPER(marca) as name,
+    marca as fipe_name,
+    "2" as `order`,
+    CONCAT(REPLACE(LOWER(marca)," ","-"),"-",codigo_marca) as `key`,
+    codigo_marca as id
+  FROM fp_marca
+  order by marca ASC
   ');
-  $stt->bindParam(':fipe',$fipe);
   $stt->execute();
-  $result=$stt->fetch(PDO::FETCH_ASSOC);
+  $result=$stt->fetchAll(PDO::FETCH_ASSOC);
 }
 catch(PDOException $e)
 {

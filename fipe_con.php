@@ -4,22 +4,27 @@
 * rafael.piza@yahoo.com.br
 * atualizado em: 03/10/2016
 */
-function conectar(){
-
+function conectar()
+{
 	$servidor = "localhost";
 	$usuario  = "root";
 	$senha    = "";
 	$baseDados= "fipe";
-	try{
-		$pdo = new PDO("mysql:host=".$servidor.";dbname=".$baseDados,$usuario,$senha);
-	}catch(PDOException $e){
+	try
+	{
+		$pdo = new PDO("mysql:host=".$servidor.";dbname=".$baseDados,$usuario,$senha,[
+			PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
+		]);
+	}
+	catch(PDOException $e)
+	{
 		echo $e->getMessage();
 	}
 	return $pdo;
 }
 
-function gravarMarcas($codigoMarca,$nomeMarca,$tipo){
-
+function gravarMarcas($codigoMarca,$nomeMarca,$tipo)
+{
 	try{
 
 		$sql 				= "SELECT codigo_marca FROM
@@ -31,7 +36,8 @@ function gravarMarcas($codigoMarca,$nomeMarca,$tipo){
 		$procurarRegistro->bindValue(":codigo_marca",$codigoMarca);
 		$procurarRegistro->execute();
 
-		if($procurarRegistro->rowCount() == 0){
+		if($procurarRegistro->rowCount() == 0)
+		{
 
 			$sql				= "INSERT INTO fp_marca (codigo_marca,marca,tipo) VALUES
 								   (:codigo_marca,:marca,:tipo)";
@@ -43,15 +49,18 @@ function gravarMarcas($codigoMarca,$nomeMarca,$tipo){
 
 		}
 
-	}catch(PDOException $e){
+	}
+	catch(PDOException $e)
+	{
 		return $e->getMessage();
 	}
 
 }
 
-function gravarModelos($codigoModelo,$codigoMarca,$codigoFipe,$nomeModelo){
-		try{
-
+function gravarModelos($codigoModelo,$codigoMarca,$codigoFipe,$nomeModelo)
+{
+		try
+		{
 		$sql 				= "SELECT codigo_modelo FROM
 							   fp_modelo
 							   WHERE
@@ -61,7 +70,8 @@ function gravarModelos($codigoModelo,$codigoMarca,$codigoFipe,$nomeModelo){
 		$procurarRegistro->bindValue(":codigo_modelo",$codigoModelo);
 		$procurarRegistro->execute();
 
-		if($procurarRegistro->rowCount() == 0){
+		if($procurarRegistro->rowCount() == 0)
+		{
 
 			$sql				= "INSERT INTO fp_modelo (codigo_modelo,codigo_marca,codigo_fipe,modelo) VALUES
 							      (:codigo_modelo,:codigo_marca,:codigo_fipe,:modelo)";
@@ -74,12 +84,17 @@ function gravarModelos($codigoModelo,$codigoMarca,$codigoFipe,$nomeModelo){
 
 		}
 
-	}catch(PDOException $e){
+	}
+	catch(PDOException $e)
+	{
 		return $e->getMessage();
 	}
 }
-function gravarAno($codigoModelo,$codigoFipe,$anoModeloFipe,$combustivelFipe,$valorFipe){
-		try{
+
+function gravarAno($codigoModelo,$codigoFipe,$anoModeloFipe,$combustivelFipe,$valorFipe)
+{
+		try
+		{
 			$sql 				= "SELECT * FROM
 								   fp_ano
 								   WHERE
@@ -108,15 +123,18 @@ function gravarAno($codigoModelo,$codigoFipe,$anoModeloFipe,$combustivelFipe,$va
 
 			}
 
-	}catch(PDOException $e){
+	}
+	catch(PDOException $e)
+	{
 		return $e->getMessage();
 	}
 }
 
 
-function listarDados(){
-
-	try{
+function listarDados()
+{
+	try
+	{
 
 		$sql 				= "SELECT
 									fp_marca.marca,
@@ -169,7 +187,9 @@ function listarDados(){
 		return $tabela;
 
 
-	}catch(PDOException $e){
+	}
+	catch(PDOException $e)
+	{
 		return $e->getMessage();
 	}
 
