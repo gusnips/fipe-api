@@ -12,7 +12,7 @@ $conn=conectar();
 try
 {
   $stt=$conn->prepare('
-    SELECT modelo FROM fp_modelo WHERE codigo_fipe=:fipe limit 1
+    SELECT modelo, codigo_fipe FROM fp_modelo WHERE codigo_fipe=:fipe limit 1
   ');
   $stt->bindParam(':fipe',$fipe);
   $stt->execute();
