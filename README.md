@@ -4,6 +4,12 @@
 
 Edit fipe_con to use your mysql connection user/password and database  
 
+Create the database and import data
+
+In mysql: `create database fipe`
+
+Import initial data: `mysql -uroot -p fipe < fipe.sql`
+
 Run in your browser fipe_form.php and start the process to import the data  
 
 Run localhost/fipe-api/api/fipe.php?cod=004481-4 to get the car data  
